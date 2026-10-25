@@ -4,9 +4,9 @@ A tested, coherent, gate-level implementation of the **multi-counterfeit** algor
 
 > **Status: the coherent multi-counterfeit (`k > 1`) solver works, in its bounded-error form, under the actual binary equal-pan balance oracle** — every secret of `(N,k) = (6,2), (8,2), (8,3), (10,4)` and 24 sampled secrets of `(12,5)` are recovered with probability ≥ 0.987, using 5 or 9 B-oracle queries counted from the circuit itself. The exact algorithm `Find(k)` (Appendix B) is **not** implemented. In the oracle model there is a measured finite-size query separation at `(8,3)`, `(10,4)` and `(12,5)` (e.g. 5 calls: quantum ≥ 0.996 vs any classical strategy ≤ 0.152 at `(10,4)`), none at `(6,2)` and `(8,2)`, and no runtime or hardware advantage anywhere. See [claim status](#claim-status).
 
-## The problem in one paragraph
+## The problem
 
-Secret `x ∈ {0,1}^N` with `wt(x) = k < N/2` (`x_i = 1`: coin `i` is counterfeit; `k` is known). A legal weighing `q ∈ {−1,0,+1}^N` puts equally many coins on each pan; the oracle returns `χ = 0` if `Σ x_i q_i = 0`, else `1`. Quantumly, `O_B|q⟩ = (−1)^χ|q⟩`. Iwama et al. prove `O(k^{1/4})` quantum queries suffice — independent of `N` — versus a classical `Ω(k log(N/k))`. That is a **query-complexity theorem**, not a runtime or hardware claim.
+Secret `x ∈ {0,1}^N` with `wt(x) = k < N/2` (`x_i = 1`: coin `i` is counterfeit; `k` is known). A legal weighing `q ∈ {−1,0,+1}^N` puts equally many coins on each pan; the oracle returns `χ = 0` if `Σ x_i q_i = 0`, else `1`. Quantumly, `O_B|q⟩ = (−1)^χ|q⟩`. Iwama et al. prove `O(k^{1/4})` quantum queries suffice — independent of `N` — versus a classical `Ω(k log(N/k))`.
 
 ## How it works
 
@@ -24,11 +24,11 @@ The key fact (paper, Lemma 2): if `s` selects an **odd** number `m` of counterfe
 Two pieces the paper leaves at the level of "prepare this state" / "run QSearch" had to be engineered:
 
 1. **Coherent partition preparation `A`** — reversible selection sampling, controlled by the superposed `s`, polynomial size, counters that clean themselves (`state_prep.py`).
-2. **Coherent amplification** — the paper's `QSearch` measures, which would collapse the superposition over `s`, and no fixed number of ordinary Grover iterations amplifies all branches (their `p` differ). We use Yoder–Low–Chuang fixed-point amplification with an exact, secret-independent lower bound `p_min(N,k)`. It is therefore a **bounded-error, paper-inspired implementation** of the balance-to-parity step, not a literal transcription of `QSearch`.
+2. **Coherent amplification** — the paper's `QSearch` measures, which would collapse the superposition over `s`, and no fixed number of ordinary Grover iterations amplifies all branches (their `p` differ). We use Yoder–Low–Chuang fixed-point amplification with an exact, secret-independent lower bound `p_min(N,k)`. It is therefore a **bounded-error, paper-inspired implementation** of the balance-to-parity step
 
 Details, equations and a component-by-component fidelity table: [`docs/algorithm.md`](docs/algorithm.md).
 
-## Results at a glance
+## Results
 
 | (N,k) | secrets | qubits | B-queries (δ=0.1) | worst exact success | rigorous bound | compiled CX | tuned: B-queries / worst success | classical optimum (weighings, exact) | classical max success with same # calls (δ=0.1 / tuned) |
 |---|---|---|---|---|---|---|---|---|---|
@@ -83,8 +83,6 @@ python experiments/run_all.py             # regenerate every CSV (~35 min on 2 c
 python experiments/summarize.py           # Markdown tables from the CSVs
 python experiments/make_plots.py          # redraw every figure from the CSVs
 ```
-
-No credentials, no cloud backend, no external data.
 
 ```python
 from quantum_counterfeit import BalanceOracle, solve
