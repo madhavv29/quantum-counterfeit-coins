@@ -1,0 +1,23 @@
+{
+  "description": "Configuration for experiments/run_all.py. All randomness is seeded here.",
+  "delta": 0.1,
+  "shots": 1000,
+  "shot_seed": 2026,
+  "aer_seed": 11,
+  "oracle_truth_table_cases": [[4, 1], [5, 1], [5, 2], [6, 1], [6, 2], [7, 2], [7, 3]],
+  "partition_cases": [[6, 2], [8, 2], [8, 3], [10, 4]],
+  "amplification_instances": [
+    {"N": 8, "k": 3, "x": [1, 0, 1, 0, 0, 1, 0, 0]},
+    {"N": 10, "k": 4, "x": [1, 1, 0, 1, 0, 0, 1, 0, 0, 0]}
+  ],
+  "one_coin_sizes": [4, 5, 6, 7, 8, 10],
+  "solver_cases": [[6, 2], [8, 2], [8, 3], [10, 4]],
+  "solver_sample_cases": [{"N": 12, "k": 5, "n_secrets": 24, "seed": 99}],
+  "resource_cases": [[4, 1], [6, 1], [8, 1], [6, 2], [8, 2], [8, 3], [10, 4]],
+  "delta_sweep": {"N": 8, "k": 3, "deltas": [0.9, 0.5, 0.3, 0.2, 0.1, 0.05, 0.02, 0.01], "secrets_stride": 7},
+  "classical_cases": [[4, 1], [6, 1], [6, 2], [8, 1], [8, 2], [8, 3], [10, 2], [10, 4]],
+  "minimax_time_limit_s": 180,
+  "asymptotic": {"N_values": [64, 256, 1024, 4096], "k_values": [1, 2, 3, 4, 6, 8, 12, 16, 24, 32, 48, 64, 96, 128, 192, 256, 384, 512, 1024, 2047]},
+  "ablation": {"target": 0.99, "simulated_cases": [[6, 2], [8, 2], [8, 3], [10, 4]],
+               "schedule_N_values": [1024], "schedule_k_values": [2, 3, 4, 6, 8, 12, 16, 24, 32, 48, 64, 96, 128, 192, 256, 384, 511]}
+}
